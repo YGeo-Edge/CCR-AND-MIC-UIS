@@ -1,0 +1,5 @@
+requests>=2.31
+beautifulsoup4>=4.12
+playwright>=1.40
+# Note: uses system Google Chrome — no browser download needed
+# Make sure Google Chrome is installed at /Applications/Google Chrome.app
