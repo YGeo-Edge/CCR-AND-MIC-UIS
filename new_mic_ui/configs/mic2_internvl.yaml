@@ -1,0 +1,55 @@
+job_name: mic2_internvl_v1
+
+model:
+  hf_id: OpenGVLab/InternVL2_5-1B   # HuggingFace model ID
+  lora_rank: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  lora_target_modules:               # attention layer names in InternViT-300M
+    - qkv
+    - proj
+
+data:
+  bucket: "ml-engines"
+  dataset_prefix: MIC2               # images live at s3://ml-engines/MIC2/{ClassName}/
+  test_split: 0.10                   # held-out test set (never seen during training)
+  val_split: 0.15                    # of the remaining 90%
+  image_size: 448
+  # max_per_class: 5000             # uncomment to cap samples per class (fast experiment)
+
+# Class labels — must match S3 subfolder names exactly (case-sensitive)
+labels:
+  - Benign
+  - fake_av
+  - financial_scam
+  - misleading_offers
+  - fake_appstore
+  - tech_support_scam
+  - gift_card_scan
+  - forced_notification
+  - suspicious_vpn
+  - malicious_extension
+  - fake_updates
+  - blank_LP
+  - fake_downloader
+
+training:
+  epochs: 5
+  batch_size: 8
+  eval_batch_size: 16
+  grad_accum: 1                      # increase to simulate larger batch without more VRAM
+  lr: 2.0e-4
+  weight_decay: 0.01
+  warmup_ratio: 0.03
+  gradient_checkpointing: true       # saves ~30% VRAM, slight speed cost
+  eval_steps: 500
+  save_steps: 500
+  logging_steps: 50
+  num_workers: 4
+
+instance:
+  type: g5.xlarge                    # A10G 24GB — best cost/perf for 1B LoRA
+  max_spot_price: "1.50"             # max $/hr for spot bid (on-demand is ~$1.00)
+
+output:
+  prefix: MIC2/models                # model saved to s3://ml-engines/MIC2/models/{job_name}/

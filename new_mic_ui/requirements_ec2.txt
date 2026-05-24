@@ -1,0 +1,13 @@
+# Additional packages for the EC2 training instance
+# (PyTorch + CUDA + torchvision are pre-installed on the Deep Learning AMI)
+peft>=0.10.0
+transformers>=4.40.0
+accelerate>=0.26.0
+boto3
+pyyaml
+scikit-learn
+einops
+sentencepiece
+timm
+Pillow
+tqdm

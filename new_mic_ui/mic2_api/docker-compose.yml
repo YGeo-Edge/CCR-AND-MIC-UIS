@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  mic2-api:
+    build: .
+    image: mic2-classifier:1.0.0
+    container_name: mic2-api
+    ports:
+      - "8000:8000"
+    volumes:
+      # Model adapter weights (read-only)
+      - ../aws_training/trained_models:/app/weights:ro
+      # HuggingFace cache — persists base model across container restarts
+      - hf_cache:/app/hf_cache
+    environment:
+      ADAPTER_PATH:     /app/weights/mic2_internvl_v1
+      BATCH_SIZE:       "8"
+      BATCH_TIMEOUT_MS: "50"
+      JOB_TTL_S:        "300"
+      MAX_UPLOAD_MB:    "10"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python3", "-c",
+             "import urllib.request; urllib.request.urlopen('http://localhost:8000/v1/health')"]
+      interval: 30s
+      timeout:  10s
+      retries:  3
+      start_period: 90s   # model load takes ~60s on CPU
+
+  # ── Optional: scale-out with nginx load balancer ──────────────────────────
+  # Uncomment to run 3 replicas behind nginx
+  #
+  # mic2-api-2:
+  #   extends: mic2-api
+  #   container_name: mic2-api-2
+  #   ports: ["8001:8000"]
+  #
+  # mic2-api-3:
+  #   extends: mic2-api
+  #   container_name: mic2-api-3
+  #   ports: ["8002:8000"]
+  #
+  # nginx:
+  #   image: nginx:alpine
+  #   ports: ["80:80"]
+  #   volumes: ["./nginx.conf:/etc/nginx/nginx.conf:ro"]
+  #   depends_on: [mic2-api, mic2-api-2, mic2-api-3]
+
+volumes:
+  hf_cache:

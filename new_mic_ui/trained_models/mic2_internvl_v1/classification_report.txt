@@ -1,0 +1,19 @@
+                     precision    recall  f1-score   support
+
+             Benign     0.9812    0.9912    0.9862      2050
+            fake_av     0.9575    0.9665    0.9620       746
+     financial_scam     0.9372    0.9074    0.9221      1102
+  misleading_offers     0.9349    0.9700    0.9521       933
+      fake_appstore     0.9953    0.9953    0.9953       852
+  tech_support_scam     0.9769    0.9863    0.9816       730
+     gift_card_scan     0.9859    0.9601    0.9728       726
+forced_notification     0.9722    0.9533    0.9627       257
+     suspicious_vpn     0.9286    0.9579    0.9430       190
+malicious_extension     0.8434    0.6481    0.7330       108
+       fake_updates     0.6265    0.6420    0.6341        81
+           blank_LP     1.0000    0.9032    0.9492        31
+    fake_downloader     0.7755    0.9500    0.8539        40
+
+           accuracy                         0.9607      7846
+          macro avg     0.9165    0.9101    0.9114      7846
+       weighted avg     0.9607    0.9607    0.9604      7846

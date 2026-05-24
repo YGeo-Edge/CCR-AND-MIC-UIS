@@ -1,0 +1,19 @@
+{
+  "model_id": "OpenGVLab/InternVL2_5-1B",
+  "num_classes": 13,
+  "class_names": [
+    "Benign",
+    "fake_av",
+    "financial_scam",
+    "misleading_offers",
+    "fake_appstore",
+    "tech_support_scam",
+    "gift_card_scan",
+    "forced_notification",
+    "suspicious_vpn",
+    "malicious_extension",
+    "fake_updates",
+    "blank_LP",
+    "fake_downloader"
+  ]
+}

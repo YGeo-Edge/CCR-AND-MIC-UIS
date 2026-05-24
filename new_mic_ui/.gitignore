@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+*.egg-info/
+
+# Generated gallery output
+gallery.html
+gallery_images/
+gallery_results.json
+mic_data.json
+
+# macOS
+.DS_Store
+
+# Temp / secrets
+*.env
+.env
